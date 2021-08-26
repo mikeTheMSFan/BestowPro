@@ -121,7 +121,171 @@
     </nav>
     <!--==== Main Section ====-->
     <main class="flex-shrink-0">
-      <div class="container"></div>
+      <div class="container">
+        <div class="row gy-3 gx-3 py-3">
+          <div class="col-12 col-lg-4">
+            <!--Form Goes Here-->
+            <section
+              class="border border-2 border-dark d-flex flex-column h-100"
+            >
+              <form class="calc-form w-100 h-100 p-2">
+                <div class="form-group row pb-3">
+                  <label for="loanAmount" class="col-sm-5 col-form-label"
+                    >Loan Amount:</label
+                  >
+                  <div class="col-sm-7">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="loanAmount"
+                      placeholder="Loan Amount"
+                      name="loanAmount"
+                      aria-label="Loan Amount"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="form-group row pb-3">
+                  <label for="term" class="col-sm-5 col-form-label"
+                    >Term (Months):</label
+                  >
+                  <div class="col-sm-7">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="term"
+                      placeholder="Term"
+                      name="term"
+                      aria-label="Term"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="form-group row pb-3">
+                  <label for="interestRate" class="col-sm-5 col-form-label"
+                    >Interest Rate:</label
+                  >
+                  <div class="col-sm-7">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="interestRate"
+                      placeholder="Interest Rate"
+                      name="interestRate"
+                      aria-label="Interest Rate"
+                      required
+                    />
+                  </div>
+                </div>
+              </form>
+              <div class="align-self-end p-2">
+                <button
+                  id="submitBtn"
+                  type="button"
+                  class="btn btn-primary"
+                  name="submitBtn"
+                  aria-label="Submit Button"
+                  >Submit</button
+                >
+              </div>
+            </section>
+          </div>
+          <div class="col-12 col-lg-8">
+            <!--Finanacial Info Goes Here-->
+            <section
+              class="
+                border border-2 border-dark
+                Financial-Info
+                d-flex
+                flex-column
+              "
+            >
+              <div class="col py-3">
+                <div>
+                  <h1 class="text-center">Your Monthly Payment</h1>
+                  <h3 class="text-center py-4">$#.##</h3>
+                </div>
+                <div class="d-flex w-100">
+                  <div class="row w-100 p-2">
+                    <div
+                      class="
+                        col-6
+                        d-flex
+                        align-items-center
+                        justify-content-start
+                      "
+                      ><span>Total Principal:</span></div
+                    >
+                    <div
+                      class="
+                        col-6
+                        d-flex
+                        align-items-center
+                        justify-content-end
+                      "
+                      ><span>$#.##</span></div
+                    >
+                    <div
+                      class="
+                        col-6
+                        d-flex
+                        align-items-center
+                        justify-content-start
+                      "
+                      ><span>Total Interest:</span></div
+                    >
+                    <div
+                      class="
+                        col-6
+                        d-flex
+                        align-items-center
+                        justify-content-end
+                      "
+                      ><span>$#.##</span></div
+                    >
+                    <div
+                      class="
+                        col-6
+                        d-flex
+                        align-items-start align-items-center
+                        justify-content-start
+                      "
+                      ><span>Total Cost:</span></div
+                    >
+                    <div
+                      class="
+                        col-6
+                        d-flex
+                        align-items-center
+                        justify-content-end
+                      "
+                      ><span>$#.##</span></div
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <row>
+          <!--Table Goes Here-->
+          <table class="table table-striped table-sm">
+            <tbody>
+              <thead>
+                <tr>
+                  <td>Month</td>
+                  <td>Payments</td>
+                  <td>Principal</td>
+                  <td>Interest</td>
+                  <td>Total Interest</td>
+                  <td>Balance</td>
+                </tr>
+              </thead>
+              <!--Results Go Here-->
+            </tbody>
+          </table>
+        </row>
+      </div>
     </main>
     <!--==== Footer Section ====-->
     <footer class="footer mt-auto py-0 sticky-footer">
@@ -179,6 +343,19 @@
         </div>
       </div>
     </footer>
+
+    <!--Table Template-->
+    <template id="bpTemplate">
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
+
     <!-- Bootstrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
@@ -191,5 +368,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="/js/site.js"></script>
+    <script>
+      document.getElementById('submitBtn').addEventListener('click', getValues);
+    </script>
   </body>
 </html>
