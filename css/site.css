@@ -80,6 +80,11 @@ main > .container {
   color: var(--secondary-color);
 }
 
+.logo,
+.title {
+  font-family: 'Spartan', sans-serif;
+}
+
 code[class*='language-'],
 pre[class*='language-'] {
   white-space: pre-wrap;
