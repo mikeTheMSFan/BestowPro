@@ -203,7 +203,7 @@
               <div class="col py-3">
                 <div>
                   <h1 class="text-center">Your Monthly Payment</h1>
-                  <h3 class="text-center py-4">$#.##</h3>
+                  <h3 id="monthlyTotal" class="text-center py-4">$#.##</h3>
                 </div>
                 <div class="d-flex w-100">
                   <div class="row w-100 p-2">
@@ -223,7 +223,7 @@
                         align-items-center
                         justify-content-end
                       "
-                      ><span>$#.##</span></div
+                      ><span id="totalPrincipal">$#.##</span></div
                     >
                     <div
                       class="
@@ -241,7 +241,7 @@
                         align-items-center
                         justify-content-end
                       "
-                      ><span>$#.##</span></div
+                      ><span id="totalInterest">$#.##</span></div
                     >
                     <div
                       class="
@@ -259,7 +259,7 @@
                         align-items-center
                         justify-content-end
                       "
-                      ><span>$#.##</span></div
+                      ><span id="totalCost">$#.##</span></div
                     >
                   </div>
                 </div>
@@ -281,7 +281,9 @@
                   <td>Balance</td>
                 </tr>
               </thead>
-              <!--Results Go Here-->
+              <tbody id="results">
+                <!--Results Go Here-->
+              </tbody>
             </tbody>
           </table>
         </row>
