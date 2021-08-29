@@ -135,7 +135,7 @@
                   >
                   <div class="col-sm-7">
                     <input
-                      type="number"
+                      type="text"
                       class="form-control"
                       id="loanAmount"
                       placeholder="Loan Amount"
@@ -143,6 +143,9 @@
                       aria-label="Loan Amount"
                       required
                     />
+                    <div id="loanError" class="invalid-feedback">
+                      Please use whole numbers ex. 1234.
+                    </div>
                   </div>
                 </div>
                 <div class="form-group row pb-3">
@@ -151,7 +154,7 @@
                   >
                   <div class="col-sm-7">
                     <input
-                      type="number"
+                      type="text"
                       class="form-control"
                       id="term"
                       placeholder="Term"
@@ -159,6 +162,9 @@
                       aria-label="Term"
                       required
                     />
+                    <div id="termError" class="invalid-feedback">
+                      Please reperesent months in whole numbers ex. 60 (5 Years).
+                    </div>
                   </div>
                 </div>
                 <div class="form-group row pb-3">
@@ -167,14 +173,17 @@
                   >
                   <div class="col-sm-7">
                     <input
-                      type="number"
+                      id = "interestRate"
+                      type="text"
                       class="form-control"
-                      id="interestRate"
                       placeholder="Interest Rate"
                       name="interestRate"
                       aria-label="Interest Rate"
-                      required
+                      required.
                     />
+                    <div id="IRError" class="invalid-feedback">
+                      Please reperesent rate as a whole number or decimal ex. 5 or 4.857.
+                    </div>
                   </div>
                 </div>
               </form>
@@ -370,8 +379,9 @@
       crossorigin="anonymous"
     ></script>
     <script src="/js/site.js"></script>
+    <script src="/js/bootstrap-validate.js"></script>
     <script>
-      document.getElementById('submitBtn').addEventListener('click', getValues);
+      document.getElementById('submitBtn').addEventListener('click', validiateFields);
     </script>
   </body>
 </html>

@@ -21,6 +21,8 @@ function getValues() {
   }
 }
 
+function validateInput(input) {}
+
 //Calculate Monthly Payment, Principal, Interest, and cost
 function calculatePayments(loan, months, rate) {
   //Interest Payment
@@ -71,7 +73,6 @@ function calculatePayments(loan, months, rate) {
 }
 
 //Display Result
-
 function displayPaymentInformation(paymentArr, principal) {
   let template = '';
 
@@ -94,6 +95,14 @@ function displayPaymentInformation(paymentArr, principal) {
     currency: 'USD',
   });
 
+  //Sets total Cost
+  document.getElementById('totalCost').innerHTML = (
+    paymentArr[lastIndex].totalInterest + principal
+  ).toLocaleString('us-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
   //Sets Principal
   document.getElementById('totalPrincipal').innerHTML =
     principal.toLocaleString('us-US', {
@@ -109,14 +118,6 @@ function displayPaymentInformation(paymentArr, principal) {
     currency: 'USD',
   });
 
-  //Sets total Cost
-  document.getElementById('totalCost').innerHTML = (
-    paymentArr[lastIndex].totalInterest + principal
-  ).toLocaleString('us-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-
   for (let i = 0; i < paymentArr.length; i++) {
     //create a fragment or copy of the template made in HTML
     let tableRow = document.importNode(templateRow.content, true);
@@ -124,7 +125,8 @@ function displayPaymentInformation(paymentArr, principal) {
     //Gets just the tb elements and puts them into an array
     let rowCols = tableRow.querySelectorAll('td');
 
-    //Fills 'td' array with data from the passed in array.
+    //Fills 'td' array with data formmated to use currency
+    //from the passed in array.
     rowCols[0].textContent = paymentArr[i].month;
     rowCols[1].textContent = paymentArr[i].payments.toLocaleString('us-US', {
       style: 'currency',
