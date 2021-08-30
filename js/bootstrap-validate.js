@@ -14,16 +14,14 @@ function validiateFields() {
 
   //Helper function that returns boolean based on RegEx Pattern(Just Digits).
   function isWholeNumber(str) {
-    const isNum = /^\d+$/.test(str);
+    const isNum = /^([1-9][0-9]{0,2}|1000)$/.test(str);
     return isNum;
   }
 
   //Helper function that returns boolean based on RegEx Pattern(Whole and Decimal numbers).
   function isPercent(str) {
     const isFloat =
-      /^(0*100{1,1}\.?((?<=\.)0*)?%?$)|(^0*\d{0,2}\.?((?<=\.)\d*)?%?)$/.test(
-        str
-      );
+      /^(100(\.0{0,2}?)?$|([1-9]|[1-9][0-9])(\.\d{1,3})?)%?$/.test(str);
     return isFloat;
   }
 
