@@ -126,25 +126,198 @@
     <main class="flex-shrink-0">
       <div class="container py-4 px-5 mt-5">
         <h2 class="title border-1 border-bottom border-dark"
-          >The Code for the Bestow Pro App</h2
+          >The Code for the BESTOW Pro App</h2
         >
         <div class="row row-cols-1 row-cols-lg-2">
           <div class="col-lg-8">
             <pre class="line-numbers">
                   <code class="language-javascript">
-                    // Call Hello World
-                    function helloWorld() {
-                      alert('Hello World');
+                    //Get Loan Amount, Term in months, and interest rate from user
+                    function getValues() {
+                      let loanAmount = document.getElementById('loanAmount').value;
+                      let monTerm = document.getElementById('term').value;
+                      let interestRate = document.getElementById('interestRate').value;
+                    
+                      //Parses strings to numerical values
+                      loanAmount = parseFloat(loanAmount.replace(/\$|,/g, ''));
+                      monTerm = parseInt(monTerm);
+                      interestRate = parseFloat(interestRate.replace(/\$+% ?/g, ''));
+                    
+                      //Formats Loan amount to US currency
+                      document.getElementById('loanAmount').value = loanAmount.toLocaleString(
+                        'us-US',
+                        {
+                          style: 'currency',
+                          currency: 'USD',
+                        }
+                      );
+                    
+                      //Puts percent at end of value
+                      document.getElementById('interestRate').value = interestRate + '%';
+                    
+                      //Construct an array of objects with payment info
+                      const paymentArr = calculatePayments(loanAmount, monTerm, interestRate);
+                    
+                      //Send array to display function
+                      displayPaymentInformation(paymentArr, loanAmount);
                     }
+                    
+                    //Calculate Monthly Payment, Principal, Interest, and cost
+                    function calculatePayments(loan, months, rate) {
+                      //Interest Payment
+                      const c = rate / 1200;
+                    
+                      //Power of morgage payment formula
+                      const temp = Math.pow(1 + c, months);
+                    
+                      //Monthly Payments is : loan * c * (1 + c) ^ months / (1 + c) ^ months -1
+                      //Represented in JS Below.
+                      let monthlyPayment = (loan * c * temp) / (temp - 1);
+                    
+                      //Sets initial balance for calculations
+                      let remainingBalance = loan;
+                    
+                      //Tallys total  for life of loan
+                      let totalInterestPaid = 0;
+                    
+                      //Loan information for reach month is set here
+                      const loanInfo = [];
+                    
+                      //Calculates and stores information for display in array
+                      for (let i = 1; i <= months; i++) {
+                        let interestPaid = 0;
+                        let principal = 0;
+                    
+                        interestPaid = remainingBalance * c;
+                        principal = monthlyPayment - interestPaid;
+                        remainingBalance -= principal;
+                        totalInterestPaid += interestPaid;
+                    
+                        loanInfo.push({
+                          month: i,
+                          payments: monthlyPayment,
+                          principal: principal,
+                          interest: interestPaid,
+                          totalInterest: totalInterestPaid,
+                          balance: remainingBalance,
+                        });
+                      }
+                    
+                      return loanInfo;
+                    }
+                    
+                    //Display Result
+                    function displayPaymentInformation(paymentArr, principal) {
+                      let template = '';
+                    
+                      //get table body element
+                      const tableBody = document.getElementById('results');
+                      //get templates
+                      const templateRow = document.getElementById('bpTemplate');
+                    
+                      //last index to get final values
+                      const lastIndex = paymentArr.length - 1;
+                    
+                      //reset table
+                      tableBody.innerHTML = '';
+                    
+                      //Sets monthly Payment in Total
+                      document.getElementById('monthlyTotal').innerHTML = paymentArr[
+                        lastIndex
+                      ].payments.toLocaleString('us-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      });
+                    
+                      //Sets total Cost
+                      document.getElementById('totalCost').innerHTML = (
+                        paymentArr[lastIndex].totalInterest + principal
+                      ).toLocaleString('us-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      });
+                    
+                      //Sets Principal
+                      document.getElementById('totalPrincipal').innerHTML =
+                        principal.toLocaleString('us-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        });
+                    
+                      //Sets total Interest
+                      document.getElementById('totalInterest').innerHTML = paymentArr[
+                        lastIndex
+                      ].totalInterest.toLocaleString('us-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      });
+                    
+                      for (let i = 0; i < paymentArr.length; i++) {
+                        //create a fragment or copy of the template made in HTML
+                        let tableRow = document.importNode(templateRow.content, true);
+                    
+                        //Gets just the tb elements and puts them into an array
+                        let rowCols = tableRow.querySelectorAll('td');
+                    
+                        //Fills 'td' array with data formmated to use currency
+                        //from the passed in array.
+                        rowCols[0].textContent = paymentArr[i].month;
+                        rowCols[1].textContent = paymentArr[i].payments.toLocaleString('us-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        });
+                        rowCols[2].textContent = paymentArr[i].principal.toLocaleString('us-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        });
+                        rowCols[3].textContent = paymentArr[i].interest.toLocaleString('us-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        });
+                        rowCols[4].textContent = paymentArr[i].totalInterest.toLocaleString(
+                          'us-US',
+                          { style: 'currency', currency: 'USD' }
+                        );
+                        rowCols[5].textContent = paymentArr[i].balance.toLocaleString('us-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        });
+                    
+                        //Appends filled 'td' rows to the HTML Table
+                        tableBody.appendChild(tableRow);
+                      }
+                    }                    
                   </code>
               </pre>
           </div>
           <div class="col-lg-4">
-            <p>The Code is structured in one function</p>
-            <h5>Hello World</h5>
+            <h1 class="pb-2 fs-2 border-bottom border-2">Bestow Pro App</h1>
+            <h5>getValues Function</h5>
             <p
-              >Hello World is a function that displays an alert with a message
-              called 'Hello World!'</p
+              >This function gets the values from the user interface, passes
+              them into the calculatePayments function, and passes the resulting
+              array to the displayPaymentInformation function, for output to the
+              user.</p
+            >
+            <h5>calculatePayments Function</h5>
+            <p
+              >This function takes the loan amount, term, and rate given by the
+              user and uses the mortgage payment formula to determine the
+              monthly payment, the total interest paid, the principal paid, and
+              the remaining balance for each month. We accomplish this by taking
+              the term and using it to make calculations for each month; once we
+              complete all calculations, we store them in an object and push
+              them into an array.</p
+            >
+            <h5>displayPaymentInformation Function</h5>
+            <p
+              >The purpose of the displayPaymentInformation function is to take
+              the array generated by the calculatePayments and display it to the
+              user through the UI. We do this by using a copy of the template
+              row, putting the ‘td’ elements of that copy into an array, looping
+              through each object of the passed in array, and assigning the
+              proper formatted value to the text content of the ‘td’ object.
+              Last, we append the result to the table's body.</p
             >
           </div>
         </div>

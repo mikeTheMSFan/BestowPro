@@ -4,24 +4,29 @@ function getValues() {
   let monTerm = document.getElementById('term').value;
   let interestRate = document.getElementById('interestRate').value;
 
-  //Validate that the input is a number
-  if (parseInt(loanAmount) && parseInt(monTerm) && parseFloat(interestRate)) {
-    //reassign strings as numbers
-    loanAmount = parseInt(loanAmount);
-    monTerm = parseInt(monTerm);
-    interestRate = parseFloat(interestRate);
+  //Parses strings to numerical values
+  loanAmount = parseFloat(loanAmount.replace(/\$|,/g, ''));
+  monTerm = parseInt(monTerm);
+  interestRate = parseFloat(interestRate.replace(/\$+% ?/g, ''));
 
-    //Construct an array of objects with payment info
-    const paymentArr = calculatePayments(loanAmount, monTerm, interestRate);
+  //Formats Loan amount to US currency
+  document.getElementById('loanAmount').value = loanAmount.toLocaleString(
+    'us-US',
+    {
+      style: 'currency',
+      currency: 'USD',
+    }
+  );
 
-    //Send array to display function
-    displayPaymentInformation(paymentArr, loanAmount);
-  } else {
-    alert('Please check your input and make sure you have only used numbers.');
-  }
+  //Puts percent at end of value
+  document.getElementById('interestRate').value = interestRate + '%';
+
+  //Construct an array of objects with payment info
+  const paymentArr = calculatePayments(loanAmount, monTerm, interestRate);
+
+  //Send array to display function
+  displayPaymentInformation(paymentArr, loanAmount);
 }
-
-function validateInput(input) {}
 
 //Calculate Monthly Payment, Principal, Interest, and cost
 function calculatePayments(loan, months, rate) {
@@ -44,7 +49,6 @@ function calculatePayments(loan, months, rate) {
   //Loan information for reach month is set here
   const loanInfo = [];
 
-  //Loops over months until 0
   //Calculates and stores information for display in array
   for (let i = 1; i <= months; i++) {
     let interestPaid = 0;
@@ -55,11 +59,6 @@ function calculatePayments(loan, months, rate) {
     remainingBalance -= principal;
     totalInterestPaid += interestPaid;
 
-    // .toLocaleString('us-US', {
-    //   style: 'currency',
-    //   currency: 'USD',
-    // })
-
     loanInfo.push({
       month: i,
       payments: monthlyPayment,
@@ -69,6 +68,7 @@ function calculatePayments(loan, months, rate) {
       balance: remainingBalance,
     });
   }
+
   return loanInfo;
 }
 

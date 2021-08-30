@@ -19,9 +19,19 @@ function validiateFields() {
   }
 
   //Helper function that returns boolean based on RegEx Pattern(Whole and Decimal numbers).
-  function isFloat(str) {
-    const isFloat = /^\d*(\.\d+)?$/.test(str);
+  function isPercent(str) {
+    const isFloat =
+      /^(0*100{1,1}\.?((?<=\.)0*)?%?$)|(^0*\d{0,2}\.?((?<=\.)\d*)?%?)$/.test(
+        str
+      );
     return isFloat;
+  }
+
+  //Helper function that returns boolean based on RegEx Pattern(US Currency).
+  function isMoney(str) {
+    const isMoney =
+      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/.test(str);
+    return isMoney;
   }
 
   //Helper function that checks field for errors
@@ -37,14 +47,14 @@ function validiateFields() {
     }
   }
 
-  //Checks all three feilds and makes sure they are in the correct format.
+  //Checks input and makes sure it is in the correct format.
   const loanOK = checkForError(
-    isWholeNumber(loanAmountField),
+    isMoney(loanAmountField),
     loanError,
     loanAmountField
   );
   const termOK = checkForError(isWholeNumber(term), termError, term);
-  const IRateOk = checkForError(isFloat(interestRate), IRError, interestRate);
+  const IRateOk = checkForError(isPercent(interestRate), IRError, interestRate);
 
   if (loanOK && termOK && IRateOk) {
     getValues();
